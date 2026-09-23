@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | PsyDetect{% endblock %}
+
+{% block content %}
+
+<section class="admin-header">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <span class="section-label">
+                    ADMINISTRATION
+                </span>
+
+                <h1>
+                    PsyDetect Admin Dashboard
+                </h1>
+
+                <p>
+                    Monitor users, screening activity and prediction records.
+                </p>
+
+            </div>
+
+   
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section-padding">
+
+    <div class="container">
+
+
+        <!-- STATISTICS -->
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <span>Total Users</span>
+
+                    <h2>
+                        {{ statistics.total_users }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-activity"></i>
+                    </div>
+
+                    <span>Total Predictions</span>
+
+                    <h2>
+                        {{ statistics.total_predictions }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-heartbreak-fill"></i>
+                    </div>
+
+                    <span>Depressed</span>
+
+                    <h2>
+                        {{ statistics.depressed_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-heart-fill"></i>
+                    </div>
+
+                    <span>Not Depressed</span>
+
+                    <h2>
+                        {{ statistics.not_depressed_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- USERS -->
+
+        <div class="table-card mt-5">
+
+            <div class="mb-4">
+
+                <span class="section-label">
+                    USER MANAGEMENT
+                </span>
+
+                <h4>
+                    Registered Users
+                </h4>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Registered</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for user in users %}
+
+                        <tr>
+
+                            <td>
+                                {{ user.id }}
+                            </td>
+
+                            <td>
+                                {{ user.name }}
+                            </td>
+
+                            <td>
+                                {{ user.email }}
+                            </td>
+
+                            <td>
+                                {{ user.created_at }}
+                            </td>
+
+                            <td>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('admin_delete_user', user_id=user.id) }}"
+                                    onsubmit="return confirm('Delete this user and all associated predictions?');"
+                                >
+
+                                    <button
+                                        class="btn btn-sm btn-outline-danger"
+                                    >
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- PREDICTIONS -->
+
+        <div class="table-card mt-5">
+
+            <div class="mb-4">
+
+                <span class="section-label">
+                    SCREENING RECORDS
+                </span>
+
+                <h4>
+                    Recent Predictions
+                </h4>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>User</th>
+                            <th>Recording</th>
+                            <th>Result</th>
+                            <th>Confidence</th>
+                            <th>Risk</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for p in predictions %}
+
+                        <tr>
+
+                            <td>
+                                {{ p.created_at }}
+                            </td>
+
+                            <td>
+                                {{ p.user_name or "Unknown" }}
+                            </td>
+
+                            <td>
+                                {{ p.filename }}
+                            </td>
+
+                            <td>
+
+                                {% if p.prediction == "Depressed" %}
+
+                                <span class="badge bg-danger">
+                                    Depressed
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-success">
+                                    Not Depressed
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ "%.1f"|format(p.confidence) }}%
+                            </td>
+
+                            <td>
+                                {{ p.risk_level }}
+                            </td>
+
+                            <td>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('admin_delete_prediction', prediction_id=p.id) }}"
+                                    onsubmit="return confirm('Delete this prediction?');"
+                                >
+
+                                    <button
+                                        class="btn btn-sm btn-outline-danger"
+                                    >
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

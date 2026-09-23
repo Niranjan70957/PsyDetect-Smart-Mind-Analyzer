@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account | PsyDetect{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-7 col-lg-5">
+
+                <div class="auth-card">
+
+                    <div class="auth-icon">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+
+                    <h2>Create Your Account</h2>
+
+                    <p>
+                        Start your mental wellness screening journey.
+                    </p>
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control"
+                                placeholder="Enter your name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="name@example.com"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Minimum 6 characters"
+                                minlength="6"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100 btn-lg"
+                        >
+                            Create Account
+                        </button>
+
+                    </form>
+
+
+                    <p class="auth-footer">
+
+                        Already have an account?
+
+                        <a href="{{ url_for('login') }}">
+                            Login
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

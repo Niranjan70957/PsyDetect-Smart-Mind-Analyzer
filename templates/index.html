@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block title %}
+PsyDetect | Smart Mind Analyzer
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+
+<section class="hero-section">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+
+        <div class="row align-items-center min-vh-100">
+
+            <div class="col-lg-7">
+
+                <span class="hero-badge">
+                    <i class="bi bi-cpu me-2"></i>
+                    AI-Powered Mental Wellness Screening
+                </span>
+
+                <h1 class="display-3 fw-bold mt-4">
+                    Understand Your
+                    <span>Mind Through Speech</span>
+                </h1>
+
+                <p class="lead mt-4">
+
+                    PsyDetect Smart Mind Analyzer uses
+                    deep learning and speech spectrogram
+                    analysis to identify speech patterns
+                    associated with depression risk.
+
+                </p>
+
+                <div class="hero-buttons mt-4">
+
+                    <a
+                        href="{{ url_for('register') }}"
+                        class="btn btn-primary btn-lg me-2"
+                    >
+                        <i class="bi bi-activity me-2"></i>
+                        Start Analysis
+                    </a>
+
+                    <a
+                        href="#how-it-works"
+                        class="btn btn-outline-light btn-lg"
+                    >
+                        Learn More
+                    </a>
+
+                </div>
+
+                <div class="hero-note mt-4">
+
+                    <i class="bi bi-shield-check me-2"></i>
+
+                    Privacy-focused · Non-invasive · AI-assisted
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="section-heading text-center">
+
+            <span class="section-label">
+                SMART FEATURES
+            </span>
+
+            <h2>
+                Intelligent Mental Wellness Support
+            </h2>
+
+            <p>
+                Designed to support early awareness,
+                prevention and informed decision-making.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4 mt-4">
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-mic-fill"></i>
+                    </div>
+
+                    <h5>Speech Analysis</h5>
+
+                    <p>
+                        Analyze speech recordings and
+                        extract meaningful acoustic patterns.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    </div>
+
+                    <h5>Deep Learning</h5>
+
+                    <p>
+                        CNN-based spectrogram classification
+                        for automated screening.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-heart-fill"></i>
+                    </div>
+
+                    <h5>Prevention</h5>
+
+                    <p>
+                        Receive wellness and prevention
+                        recommendations based on screening results.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-person-heart"></i>
+                    </div>
+
+                    <h5>Support Guidance</h5>
+
+                    <p>
+                        Get guidance encouraging appropriate
+                        professional support when necessary.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section
+    class="section-padding bg-light"
+    id="how-it-works"
+>
+
+    <div class="container">
+
+        <div class="section-heading text-center">
+
+            <span class="section-label">
+                WORKFLOW
+            </span>
+
+            <h2>
+                How PsyDetect Works
+            </h2>
+
+        </div>
+
+
+        <div class="row g-4 mt-4">
+
+            {% for number, icon, title, text in [
+                ("01","bi-mic","Record Speech","Upload or record a short speech sample."),
+                ("02","bi-soundwave","Generate Spectrogram","Speech is converted into a visual spectrogram."),
+                ("03","bi-cpu","CNN Analysis","The trained deep learning model analyzes the spectrogram."),
+                ("04","bi-bar-chart","View Results","Receive screening results and wellness guidance.")
+            ] %}
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="workflow-card">
+
+                    <span class="workflow-number">
+                        {{ number }}
+                    </span>
+
+                    <i class="bi {{ icon }} workflow-icon"></i>
+
+                    <h5>{{ title }}</h5>
+
+                    <p>{{ text }}</p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DISCLAIMER ================= -->
+
+<section class="disclaimer-section">
+
+    <div class="container">
+
+        <div class="disclaimer-card">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <div>
+
+                <h5>Important Health Notice</h5>
+
+                <p class="mb-0">
+
+                    PsyDetect is an AI-assisted screening and
+                    awareness system. It does not provide a
+                    medical diagnosis. If you are experiencing
+                    persistent or severe symptoms, consult a
+                    qualified mental health professional.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

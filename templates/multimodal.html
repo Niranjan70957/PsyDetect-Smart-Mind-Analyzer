@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Voice + Face | PsyDetect{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container"><span class="section-label">MULTIMODAL ANALYSIS</span>
+<h1>Your voice and expressions, together</h1>
+<p>Record yourself speaking in English, or upload a video with audio. Keep one face clearly visible.</p>
+<p>This research demo reports emotion patterns. Combined depression risk is available only after a depression model has been trained and evaluated.</p>
+</div></section>
+<section class="section-padding"><div class="container" id="multimodal-app" data-csrf="{{ csrf_token }}">
+<div class="row g-4"><div class="col-lg-6"><div class="p-4 rounded border bg-white">
+<h2 class="h4">Record or upload</h2>
+<p>30-second recording · MP4 or WebM · 2–120 seconds · up to 100 MB</p>
+<video id="mm-preview" controls playsinline muted style="width:100%;max-height:340px;background:#172033;border-radius:12px" aria-label="Recording preview"></video>
+<div class="d-flex flex-wrap gap-2 my-3">
+<button type="button" id="mm-record" class="btn btn-primary">Start camera & microphone</button>
+<button type="button" id="mm-stop" class="btn btn-outline-danger" disabled>Stop</button>
+<button type="button" id="mm-reset" class="btn btn-outline-secondary">Retry / clear</button></div>
+<label for="mm-file" class="form-label">Or choose a video</label>
+<input id="mm-file" type="file" class="form-control" accept="video/mp4,video/webm,.mp4,.webm">
+<p id="mm-selection" class="small mt-2">No recording selected.</p>
+<p class="small">Recording starts only when you choose to enable your camera and microphone. Analysis runs locally; temporary recordings are deleted after processing.</p>
+<button type="button" id="mm-submit" class="btn btn-success" disabled>Analyze voice + face</button>
+<a class="btn btn-link" href="{{ url_for('predict') }}">Use voice only</a>
+</div></div><div class="col-lg-6"><div class="p-4 rounded border bg-white">
+<h2 class="h4">Analysis</h2><p id="mm-status" role="status" aria-live="polite">Ready when you are.</p><div id="mm-results"></div>
+</div></div></div><div class="mt-5" id="analysis-history"><h2 class="h4">Voice + face history</h2>
+<p class="small">Emotion confidence describes the model's emotion score, not the probability of depression.</p>
+<div class="table-responsive"><table class="table"><thead><tr><th>Date</th><th>Recording</th><th>Status</th><th>Result</th></tr></thead><tbody>
+{% for item in analyses %}<tr><td>{{ item.created_at }}</td><td>{{ item.filename }}</td><td>{{ item.status }}</td><td><button type="button" class="btn btn-sm btn-outline-primary mm-history" data-job="{{ item.id }}">View</button></td></tr>
+{% else %}<tr><td colspan="4">No multimodal analyses yet.</td></tr>{% endfor %}
+</tbody></table></div></div></div></section>
+{% endblock %}
+{% block extra_js %}<script src="{{ url_for('static', filename='js/multimodal.js') }}"></script>{% endblock %}

@@ -1,0 +1,11 @@
+.venv/
+.python/
+.cache/
+__pycache__/
+.pytest_cache/
+data/
+runtime/
+saved_models/pretrained/
+saved_models/multimodal/
+*.pyc
+*.sqlite3

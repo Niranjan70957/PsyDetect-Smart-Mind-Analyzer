@@ -1,0 +1,31 @@
+{
+  "run_id": "20260923T172125Z",
+  "pipeline_id": "af9599bc3d1a7bf0526b06b572673e95862da24cdd587daa7606035590aeb0cc",
+  "labels": [
+    "angry",
+    "calm",
+    "disgust",
+    "fearful",
+    "happy",
+    "neutral",
+    "sad",
+    "surprised"
+  ],
+  "task": "emotion",
+  "modality": "fusion",
+  "temperature": 1.6517995600641693,
+  "threshold": 0.5,
+  "deployment_approved": false,
+  "duration_validated": false,
+  "evaluation_path": "results\\multimodal\\20260923T172125Z",
+  "training": {
+    "seed": 42,
+    "max_epochs": 50,
+    "epochs_run": 12,
+    "hidden_units": 128,
+    "dropout": 0.3,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "frozen_encoders": true
+  }
+}

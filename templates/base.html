@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        PsyDetect Smart Mind Analyzer
+        {% endblock %}
+    </title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP 5
+         ===================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+         ===================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+         ===================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+     ========================================================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top main-navbar">
+
+    <div class="container">
+
+
+        <!-- BRAND -->
+
+        <a
+            class="navbar-brand fw-bold"
+            href="{{ url_for('home') }}"
+        >
+
+            <i class="bi bi-heart-pulse-fill me-2"></i>
+
+            PsyDetect Smart Mind Analyzer
+
+        </a>
+
+
+        <!-- MOBILE MENU BUTTON -->
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <!-- NAVIGATION -->
+
+        <div
+            class="collapse navbar-collapse"
+            id="mainNavbar"
+        >
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+
+                <!-- HOME -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('home') }}"
+                    >
+
+                        <i class="bi bi-house-door me-1"></i>
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     LOGGED-IN USER NAVIGATION
+                     ================================================= -->
+
+                {% if session.get('user_id') %}
+
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('multimodal.page') }}">Voice + Face</a></li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('user_dashboard') }}"
+                    >
+
+                        <i class="bi bi-grid-1x2 me-1"></i>
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('predict') }}"
+                    >
+
+                        <i class="bi bi-mic-fill me-1"></i>
+                        Analyze Speech
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('history') }}"
+                    >
+
+                        <i class="bi bi-clock-history me-1"></i>
+                        History
+
+                    </a>
+
+                </li>
+
+
+                <!-- USER NAME -->
+
+                <li class="nav-item ms-lg-3">
+
+                    <span class="nav-link">
+
+                        <i class="bi bi-person-circle me-1"></i>
+
+                        {{ session.get('user_name') }}
+
+                    </span>
+
+                </li>
+
+
+                <!-- USER LOGOUT -->
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="btn btn-light btn-sm px-3"
+                        href="{{ url_for('logout') }}"
+                    >
+
+                        <i class="bi bi-box-arrow-right me-1"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     ADMIN LOGIN
+                     Available to logged-in users also
+                     ================================================= -->
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="btn btn-outline-light btn-sm px-3"
+                        href="{{ url_for('admin_login') }}"
+                    >
+
+                        <i class="bi bi-shield-lock-fill me-1"></i>
+
+                        Admin Login
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     ADMIN LOGGED-IN NAVIGATION
+                     ================================================= -->
+
+                {% elif session.get('admin_id') %}
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('admin_dashboard') }}"
+                    >
+
+                        <i class="bi bi-speedometer2 me-1"></i>
+
+                        Admin Dashboard
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item ms-lg-3">
+
+                    <span class="nav-link">
+
+                        <i class="bi bi-shield-check me-1"></i>
+
+                        Administrator
+
+                    </span>
+
+                </li>
+
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="btn btn-light btn-sm px-3"
+                        href="{{ url_for('admin_logout') }}"
+                    >
+
+                        <i class="bi bi-box-arrow-right me-1"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     NORMAL VISITOR NAVIGATION
+                     ================================================= -->
+
+                {% else %}
+
+
+                <!-- USER LOGIN -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('login') }}"
+                    >
+
+                        <i class="bi bi-box-arrow-in-right me-1"></i>
+
+                        Login
+
+                    </a>
+
+                </li>
+
+
+                <!-- REGISTER -->
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="btn btn-primary btn-sm px-3"
+                        href="{{ url_for('register') }}"
+                    >
+
+                        <i class="bi bi-person-plus me-1"></i>
+
+                        Get Started
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     ADMIN LOGIN - MAIN NAVBAR
+                     ================================================= -->
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="btn btn-outline-light btn-sm px-3"
+                        href="{{ url_for('admin_login') }}"
+                    >
+
+                        <i class="bi bi-shield-lock-fill me-1"></i>
+
+                        Admin Login
+
+                    </a>
+
+                </li>
+
+
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     FLASH MESSAGES
+     ========================================================= -->
+
+<div class="flash-container">
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+            <div
+                class="alert alert-info alert-dismissible fade show shadow-sm"
+                role="alert"
+            >
+
+                <i class="bi bi-info-circle me-2"></i>
+
+                {{ message }}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                >
+                </button>
+
+            </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+</div>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer class="site-footer">
+
+    <div class="container">
+
+        <div class="row gy-4">
+
+
+            <!-- ABOUT -->
+
+            <div class="col-lg-6">
+
+                <h5>
+
+                    <i class="bi bi-heart-pulse-fill me-2"></i>
+
+                    PsyDetect Smart Mind Analyzer
+
+                </h5>
+
+                <p>
+
+                    An AI-powered speech analysis platform
+                    designed for early mental wellness
+                    screening and awareness.
+
+                </p>
+
+            </div>
+
+
+            <!-- PLATFORM -->
+
+            <div class="col-lg-3">
+
+                <h6>
+                    Platform
+                </h6>
+
+                <ul class="footer-links">
+
+                    <li>
+                        <a href="{{ url_for('home') }}">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('predict') }}">
+                            Speech Analysis
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('login') }}">
+                            User Login
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('register') }}">
+                            Registration
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- ADMIN -->
+
+            <div class="col-lg-3">
+
+                <h6>
+                    Administration
+                </h6>
+
+                <ul class="footer-links">
+
+                    <li>
+
+                        <a href="{{ url_for('admin_login') }}">
+
+                            <i class="bi bi-shield-lock me-1"></i>
+
+                            Admin Login
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+                <p class="small">
+
+                    Secure administration panel for
+                    managing users and prediction records.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="text-center small">
+
+            PsyDetect Smart Mind Analyzer.
+            
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     BOOTSTRAP JAVASCRIPT
+     ========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =========================================================
+     CUSTOM JAVASCRIPT
+     ========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}">
+</script>
+
+
+{% block extra_js %}
+
+{% endblock %}
+
+
+</body>
+
+</html>

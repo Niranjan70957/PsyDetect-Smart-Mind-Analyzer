@@ -1,0 +1,89 @@
+{
+  "voice_regression": [
+    {
+      "file": "1.wav",
+      "expected": 0.9999998807907104,
+      "actual": 0.9999998807907104
+    },
+    {
+      "file": "2.wav",
+      "expected": 0.9999998211860657,
+      "actual": 0.9999998211860657
+    },
+    {
+      "file": "3.wav",
+      "expected": 0.9999955296516418,
+      "actual": 0.9999955296516418
+    },
+    {
+      "file": "4.wav",
+      "expected": 0.9999995827674866,
+      "actual": 0.9999995827674866
+    }
+  ],
+  "checks": [
+    "Legacy routes, real-model prediction parity, and multimodal page",
+    "Trained fused emotion head served through the real API",
+    "Browser registration/login, actual video inference, saved history, fake camera capture/reset and permission rejection"
+  ],
+  "real_multimodal": {
+    "depression": {
+      "probability": null,
+      "reason": "Combined depression training requires compatible depression-labelled data.",
+      "status": "unavailable"
+    },
+    "elapsed_seconds": 9.59,
+    "facial_emotion": {
+      "confidence": 0.7576114535331726,
+      "label": "neutral",
+      "probabilities": {
+        "angry": 0.04744522646069527,
+        "disgust": 0.0036435381043702364,
+        "fear": 0.08926892280578613,
+        "happy": 0.002863161265850067,
+        "neutral": 0.7576114535331726,
+        "sad": 0.08704864233732224,
+        "surprise": 0.012118944898247719
+      }
+    },
+    "fused_emotion": {
+      "confidence": 0.5886329412460327,
+      "label": "neutral",
+      "model_version": "20260923T172125Z",
+      "probabilities": {
+        "angry": 0.05032367631793022,
+        "calm": 0.025889834389090538,
+        "disgust": 0.006730237044394016,
+        "fearful": 0.04456687346100807,
+        "happy": 0.01641695573925972,
+        "neutral": 0.5886329412460327,
+        "sad": 0.06964194029569626,
+        "surprised": 0.1977975219488144
+      },
+      "task": "emotion"
+    },
+    "modality": "audio_video",
+    "pipeline_id": "af9599bc3d1a7bf0526b06b572673e95862da24cdd587daa7606035590aeb0cc",
+    "quality": {
+      "audio_rms": 0.0027306664269417524,
+      "duration_seconds": 3.34,
+      "face_coverage": 1.0,
+      "sample_rate": 16000,
+      "sampled_frames": 7,
+      "speech_windows": 1,
+      "valid_face_frames": 7
+    },
+    "speech_emotion": {
+      "confidence": 1.0,
+      "label": "angry",
+      "probabilities": {
+        "angry": 1.0,
+        "happy": 1.9086856119059081e-13,
+        "neutral": 3.7974137723217893e-11,
+        "sad": 8.373365206499478e-14
+      }
+    }
+  },
+  "end_to_end_seconds": 10.178884900000071,
+  "artifact_directory": "runtime\\verification-9e83e803fecc4764887cade8e54e3813"
+}

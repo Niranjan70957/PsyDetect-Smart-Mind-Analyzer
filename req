@@ -1,0 +1,2 @@
+py -3.9 -m pip install setuptools==80.10.2 --trusted-host pypi.org --trusted-host files.pythonhosted.org
+py -3.9 -c "import pkg_resources; print('pkg_resources OK')"

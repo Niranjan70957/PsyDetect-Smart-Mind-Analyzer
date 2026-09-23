@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction History | PsyDetect{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <div class="container">
+
+        <span class="section-label">
+            REPORTS
+        </span>
+
+        <h1>Prediction History</h1>
+        <p><a href="{{ url_for('multimodal.page') }}#analysis-history">View voice + face analyses</a></p>
+
+        <p>
+            Review your previous PsyDetect screening results.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="table-card">
+
+            {% if predictions %}
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Recording</th>
+                            <th>Prediction</th>
+                            <th>Confidence</th>
+                            <th>Risk Level</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for p in predictions %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+                                {{ p.created_at }}
+                            </td>
+
+                            <td>
+                                <i class="bi bi-file-earmark-music me-2"></i>
+                                {{ p.filename }}
+                            </td>
+
+                            <td>
+
+                                {% if p.prediction == "Depressed" %}
+
+                                <span class="badge bg-danger">
+                                    {{ p.prediction }}
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-success">
+                                    {{ p.prediction }}
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ "%.1f"|format(p.confidence) }}%
+                            </td>
+
+                            <td>
+                                {{ p.risk_level }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <i class="bi bi-folder2-open"></i>
+
+                <h4>No Predictions Yet</h4>
+
+                <p>
+                    Start your first speech analysis.
+                </p>
+
+                <a
+                    href="{{ url_for('predict') }}"
+                    class="btn btn-primary"
+                >
+                    Start Analysis
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

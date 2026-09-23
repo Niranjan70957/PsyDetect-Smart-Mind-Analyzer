@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | PsyDetect{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <div class="container">
+
+        <span class="section-label">
+            USER DASHBOARD
+        </span>
+
+        <h1>
+            Welcome, {{ session.get('user_name') }}
+        </h1>
+
+        <p>
+            Manage your speech analysis and wellness screening history.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <div class="dashboard-icon">
+                        <i class="bi bi-mic-fill"></i>
+                    </div>
+
+                    <h4>New Analysis</h4>
+
+                    <p>
+                        Upload a speech recording for screening.
+                    </p>
+
+                    <a
+                        href="{{ url_for('predict') }}"
+                        class="btn btn-primary"
+                    >
+                        Start Analysis
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <div class="dashboard-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+
+                    <h4>Prediction History</h4>
+
+                    <p>
+                        View your previous screening results.
+                    </p>
+
+                    <a
+                        href="{{ url_for('history') }}"
+                        class="btn btn-outline-primary"
+                    >
+                        View History
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <div class="dashboard-icon">
+                        <i class="bi bi-shield-heart"></i>
+                    </div>
+
+                    <h4>Mental Wellness</h4>
+
+                    <p>
+                        Learn healthy habits and prevention strategies.
+                    </p>
+
+                    <a
+                        href="{{ url_for('predict') }}"
+                        class="btn btn-outline-primary"
+                    >
+                        Explore
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% if predictions %}
+
+        <div class="table-card mt-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <span class="section-label">
+                        RECENT ACTIVITY
+                    </span>
+
+                    <h4>
+                        Recent Predictions
+                    </h4>
+
+                </div>
+
+                <a
+                    href="{{ url_for('history') }}"
+                    class="btn btn-sm btn-outline-primary"
+                >
+                    View All
+                </a>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>File</th>
+                            <th>Prediction</th>
+                            <th>Confidence</th>
+                            <th>Risk</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for p in predictions %}
+
+                        <tr>
+
+                            <td>
+                                {{ p.created_at }}
+                            </td>
+
+                            <td>
+                                {{ p.filename }}
+                            </td>
+
+                            <td>
+                                <span class="status-badge">
+                                    {{ p.prediction }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ "%.1f"|format(p.confidence) }}%
+                            </td>
+
+                            <td>
+                                {{ p.risk_level }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}
